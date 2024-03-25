@@ -38,7 +38,7 @@ public enum Row {
 
     private static void validateSize(String value) {
         if (value.length() != 1) {
-            throw new IllegalArgumentException("a~h까지 가능합니다.");
+            throw new IllegalArgumentException("한 글자의 알파벳만 가능합니다.");
         }
     }
 
