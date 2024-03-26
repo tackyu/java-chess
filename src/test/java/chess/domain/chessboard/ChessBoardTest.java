@@ -56,4 +56,14 @@ class ChessBoardTest {
         assertThatCode(() -> chessBoard.move(Position.of("a6"), Position.of("b7")))
                 .doesNotThrowAnyException();
     }
+
+    @Test
+    @DisplayName("목적지에 같은 팀이 위치한다면 이동할 수 없다.")
+    void ChessBoard_Disallow_move_to_target_if_there_is_team() {
+        ChessBoard chessBoard = ChessBoard.initializeChessBoard();
+
+        assertThatThrownBy(() -> chessBoard.move(Position.of("a1"), Position.of("b1")))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이동할 수 없습니다.");
+    }
 }
