@@ -1,7 +1,5 @@
 package chess.domain.position;
 
-import chess.domain.chesspiece.Team;
-
 import java.util.Arrays;
 
 public enum Column {
@@ -52,13 +50,6 @@ public enum Column {
                 .filter(column -> column.index == this.index + direction)
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("1~8까지 가능합니다."));
-    }
-
-    public boolean isPawnStartPosition(Team team) {
-        if (team.isWhite()) {
-            return index == 1;
-        }
-        return index == 6;
     }
 
     public int subtractColumn(Column column) {

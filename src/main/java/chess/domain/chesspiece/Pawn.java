@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static chess.domain.chesspiece.Role.*;
+import static chess.domain.chesspiece.Team.*;
 
 public class Pawn extends Piece {
 
@@ -19,7 +20,7 @@ public class Pawn extends Piece {
     public List<Position> getRoute(Position source, Position target) {
         List<Position> route = new ArrayList<>(super.getRoute(source, target));
         Direction direction = Direction.findDirection(source, target);
-        if (direction.isUpDown()) { //이동
+        if (direction.isUpDown()) {
             route.add(target);
         }
         return Collections.unmodifiableList(route);
@@ -47,19 +48,34 @@ public class Pawn extends Piece {
     }
 
     private boolean canMoveForwardTwice(Position source, Position target) {
-        int columnDistance = source.calculatePawnColumnDistance(target, team);
-        return source.isPawnStartPosition(team) && source.isSameRow(target) && columnDistance == 2;
+        if (team == WHITE) {
+            return isStartPosition(source, team) && source.isSameRow(target)
+                    && target.subtractColumn(source) == 2;
+        }
+        return isStartPosition(source, team) && source.isSameRow(target)
+                && source.subtractColumn(target) == 2;
+    }
+
+    private boolean isStartPosition(Position source, Team team) {
+        if (team == WHITE) {
+            return source.getColumn().getIndex() == 1;
+        }
+        return source.getColumn().getIndex() == 6;
     }
 
     private boolean canMoveForward(Position source, Position target) {
-        int columnDistance = source.calculatePawnColumnDistance(target, team);
-        return source.isSameRow(target) && columnDistance == 1;
+        if (team == WHITE) {
+            return source.isSameRow(target) && target.subtractColumn(source) == 1;
+        }
+        return source.isSameRow(target) && source.subtractColumn(target) == 1;
     }
 
     private boolean canAttack(Position source, Position target) {
         int rowDistance = source.calculateRowDistance(target);
-        int colDistance = source.calculatePawnColumnDistance(target, team);
-        return rowDistance == 1 && colDistance == 1;
+        if (team == WHITE) {
+            return rowDistance == 1 && target.subtractColumn(source) == 1;
+        }
+        return rowDistance == 1 && source.subtractColumn(target) == 1;
     }
 
     @Override
