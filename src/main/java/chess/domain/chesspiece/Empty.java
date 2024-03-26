@@ -15,7 +15,7 @@ public class Empty extends Piece {
 
     @Override
     public List<Position> getRoute(Position source, Position target) {
-        return null;
+        throw new IllegalArgumentException("이동할 체스 말이 없습니다.");
     }
 
     @Override
