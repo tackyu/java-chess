@@ -19,7 +19,7 @@ class PawnTest {
     void Pawn_Move_forward_twice_on_start_position() {
         Piece piece = new Pawn(WHITE);
         List<Position> route = piece.getRoute(Position.of("a2"), Position.of("a4"));
-        List<Position> positions = List.of(Position.of("a3"));
+        List<Position> positions = List.of(Position.of("a3"), Position.of("a4"));
         assertThat(route).isEqualTo(positions);
     }
 
@@ -28,7 +28,7 @@ class PawnTest {
     void Pawn_Move_forward_once() {
         Piece piece = new Pawn(WHITE);
         List<Position> route = piece.getRoute(Position.of("a2"), Position.of("a3"));
-        List<Position> positions = List.of();
+        List<Position> positions = List.of(Position.of("a3"));
         assertThat(route).isEqualTo(positions);
     }
 

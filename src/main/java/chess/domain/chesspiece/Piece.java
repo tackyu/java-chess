@@ -17,7 +17,6 @@ public abstract class Piece {
     public List<Position> getRoute(Position source, Position target) {
         validateMovingRule(source, target);
         List<Position> route = new ArrayList<>();
-
         Direction direction = Direction.findDirection(source, target);
         Position movingPosition = direction.move(source);
 
@@ -34,5 +33,9 @@ public abstract class Piece {
 
     public boolean isTeam(Piece piece) {
         return team == piece.team;
+    }
+
+    public boolean willAttack(Direction direction, Piece opponent) {
+        return team.reverse() == opponent.team;
     }
 }

@@ -57,13 +57,23 @@ public class ChessBoard {
     public void move(Position source, Position target) {
         Piece piece = findChessPiece(source);
         piece.getRoute(source, target)
-                .forEach(this::checkObstacle);
-        if (isPawn(piece)) {
-            checkPawnStrategy(source, target);
+                .forEach(this::checkObstacle); //공통~ 경로에 장애물 확인
+
+        if (piece.willAttack(Direction.findDirection(source, target), findChessPiece(target))) {//공격
+            attack(source, target, piece);
+            return;
         }
-        checkTeam(target, piece);
-        chessBoard.put(source.getColumn(), getUpdate(source, new Empty()));
-        chessBoard.put(target.getColumn(), getUpdate(target, piece));
+        checkTeam(target, piece);//이동~ 같은 팀이면 예외
+        updateChessBoard(source, target, piece);
+    }
+
+    private void attack(Position source, Position target, Piece piece) {
+        updateChessBoard(source, target, piece);
+    }
+
+    private void updateChessBoard(Position source, Position target, Piece piece) {
+        chessBoard.put(source.getColumn(), updateLine(source, new Empty()));
+        chessBoard.put(target.getColumn(), updateLine(target, piece));
     }
 
     private void checkObstacle(Position position) {
@@ -73,23 +83,6 @@ public class ChessBoard {
         }
     }
 
-    private boolean isPawn(Piece piece) {
-        return piece.getRole() == BLACK_PAWN || piece.getRole() == WHITE_PAWN;
-    }
-
-    private void checkPawnStrategy(Position source, Position target) {
-        if (Direction.isUpDown(source, target)) {
-            checkObstacle(target);
-        }
-        if (Direction.isDiagonal(source, target) && isEmpty(findChessPiece(target))) {
-            throw new IllegalArgumentException("공격 대상이 없습니다.");
-        }
-    }
-
-    private boolean isEmpty(Piece piece) {
-        return piece.getRole() == EMPTY;
-    }
-
     private void checkTeam(Position target, Piece piece) {
         Piece targetPiece = findChessPiece(target);
         if (piece.isTeam(targetPiece)) {
@@ -97,7 +90,7 @@ public class ChessBoard {
         }
     }
 
-    private Line getUpdate(Position source, Piece piece) {
+    private Line updateLine(Position source, Piece piece) {
         return chessBoard.get(source.getColumn()).update(source.getRow(), piece);
     }
 
