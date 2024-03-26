@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class PawnTest {
     @Test
     @DisplayName("폰은 시작 지점에 있을 때 앞으로 2칸 이동할 수 있다.")
-    void Pawn_Move_forward_twice_on_start_position() {
+    void WhitePawn_Move_forward_twice_on_start_position() {
         Piece piece = new Pawn(WHITE);
         List<Position> route = piece.getRoute(Position.of("a2"), Position.of("a4"));
         List<Position> positions = List.of(Position.of("a3"), Position.of("a4"));
@@ -24,8 +24,17 @@ class PawnTest {
     }
 
     @Test
+    @DisplayName("폰은 시작 지점에 있을 때 앞으로 2칸 이동할 수 있다.")
+    void BlackPawn_Move_forward_twice_on_start_position() {
+        Piece piece = new Pawn(BLACK);
+        List<Position> route = piece.getRoute(Position.of("a7"), Position.of("a5"));
+        List<Position> positions = List.of(Position.of("a6"), Position.of("a5"));
+        assertThat(route).isEqualTo(positions);
+    }
+
+    @Test
     @DisplayName("폰은 앞으로 한 칸 이동할 수 있다.")
-    void Pawn_Move_forward_once() {
+    void WhitePawn_Move_forward_once() {
         Piece piece = new Pawn(WHITE);
         List<Position> route = piece.getRoute(Position.of("a2"), Position.of("a3"));
         List<Position> positions = List.of(Position.of("a3"));
@@ -33,10 +42,28 @@ class PawnTest {
     }
 
     @Test
-    @DisplayName("폰은 대각선으로 이동할 수 있다.")
-    void Pawn_Move_diagonal() {
+    @DisplayName("폰은 앞으로 한 칸 이동할 수 있다.")
+    void BlackPawn_Move_forward_once() {
+        Piece piece = new Pawn(BLACK);
+        List<Position> route = piece.getRoute(Position.of("a7"), Position.of("a6"));
+        List<Position> positions = List.of(Position.of("a6"));
+        assertThat(route).isEqualTo(positions);
+    }
+
+    @Test
+    @DisplayName("폰은 진행방향 대각선으로 이동할 수 있다.")
+    void WhitePawn_Move_diagonal() {
         Piece piece = new Pawn(WHITE);
         List<Position> route = piece.getRoute(Position.of("a2"), Position.of("b3"));
+        List<Position> positions = List.of();
+        assertThat(route).isEqualTo(positions);
+    }
+
+    @Test
+    @DisplayName("폰은 진행방향 대각선으로 이동할 수 있다.")
+    void BlackPawn_Move_diagonal() {
+        Piece piece = new Pawn(BLACK);
+        List<Position> route = piece.getRoute(Position.of("a7"), Position.of("b6"));
         List<Position> positions = List.of();
         assertThat(route).isEqualTo(positions);
     }
