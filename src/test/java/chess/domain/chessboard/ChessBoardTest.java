@@ -4,8 +4,8 @@ import chess.domain.position.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static chess.domain.chessboard.State.*;
+import static org.assertj.core.api.Assertions.*;
 
 class ChessBoardTest {
 
@@ -64,5 +64,40 @@ class ChessBoardTest {
         assertThatThrownBy(() -> chessBoard.move(Position.of("a1"), Position.of("b1")))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("이동할 수 없습니다.");
+    }
+
+    @Test
+    @DisplayName("게임이 시작하면 게임 상태는 GAME_ONGOING이다.")
+    void ChessBoard_check_game_state_when_the_game_starts() {
+        ChessBoard chessBoard = ChessBoard.initializeChessBoard();
+        assertThat(chessBoard.getState()).isEqualTo(GAME_ONGOING);
+    }
+
+    @Test
+    @DisplayName("킹이 잡히면 게임 상태는 GAME_END이다.")
+    void ChessBoard_check_game_state_when_the_whiteKing_is_gone() {
+        ChessBoard chessBoard = ChessBoard.initializeChessBoard();
+        chessBoard.move(Position.of("e7"), Position.of("e5"));
+        chessBoard.move(Position.of("e8"), Position.of("e7"));
+        chessBoard.move(Position.of("e7"), Position.of("e6"));
+        chessBoard.move(Position.of("e6"), Position.of("d5"));
+        chessBoard.move(Position.of("c2"), Position.of("c4"));
+        chessBoard.move(Position.of("c4"), Position.of("d5"));
+
+        assertThat(chessBoard.getState()).isEqualTo(GAME_END);
+    }
+
+    @Test
+    @DisplayName("킹이 잡히면 게임 상태는 GAME_END이다.")
+    void ChessBoard_check_game_state_when_the_blackKing_is_g() {
+        ChessBoard chessBoard = ChessBoard.initializeChessBoard();
+        chessBoard.move(Position.of("e2"), Position.of("e4"));
+        chessBoard.move(Position.of("e1"), Position.of("e2"));
+        chessBoard.move(Position.of("e2"), Position.of("e3"));
+        chessBoard.move(Position.of("e3"), Position.of("d4"));
+        chessBoard.move(Position.of("c7"), Position.of("c5"));
+        chessBoard.move(Position.of("c5"), Position.of("d4"));
+
+        assertThat(chessBoard.getState()).isEqualTo(GAME_END);
     }
 }

@@ -8,16 +8,22 @@ import chess.view.OutputView;
 
 import java.util.List;
 
+import static chess.domain.chessboard.State.*;
+
 public class Controller {
     public void run() {
         OutputView.printStartMessage();
         Command command = Command.getStartCommand(InputView.readCommand());
         ChessBoard chessBoard = ChessBoard.initializeChessBoard();
-        while (!command.isEnd()) {
+        while (isGameOnGoing(chessBoard, command)) {
             OutputView.printChessBoard(chessBoard.getChessBoard());
             command = Command.getProcessCommand(InputView.readCommand());
             processGame(command, chessBoard);
         }
+    }
+
+    private boolean isGameOnGoing(ChessBoard chessBoard, Command command) {
+        return chessBoard.getState() == GAME_ONGOING && !command.isEnd();
     }
 
     private void processGame(Command command, ChessBoard chessBoard) {

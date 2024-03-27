@@ -8,15 +8,18 @@ import chess.domain.position.Row;
 
 import java.util.*;
 
+import static chess.domain.chessboard.State.*;
 import static chess.domain.chesspiece.Team.BLACK;
 import static chess.domain.chesspiece.Team.WHITE;
 import static chess.domain.chesspiece.Role.*;
 
 public class ChessBoard {
     private final Map<Column, Line> chessBoard;
+    private State state;
 
     private ChessBoard(Map<Column, Line> chessBoard) {
         this.chessBoard = chessBoard;
+        this.state = GAME_ONGOING;
     }
 
     //TODO: 한칸 생각해보기
@@ -68,6 +71,10 @@ public class ChessBoard {
     }
 
     private void attack(Position source, Position target, Piece piece) {
+        Piece enemy = findChessPiece(target);
+        if (enemy.getRole() == BLACK_KING || enemy.getRole() == WHITE_KING) {
+            state = GAME_END;
+        }
         updateChessBoard(source, target, piece);
     }
 
@@ -99,5 +106,9 @@ public class ChessBoard {
         Row row = source.getRow();
         Line chessPieces = chessBoard.get(column);
         return chessPieces.getChessPiece(row);
+    }
+
+    public State getState() {
+        return state;
     }
 }
