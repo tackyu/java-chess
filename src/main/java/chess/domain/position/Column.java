@@ -56,11 +56,11 @@ public enum Column {
         return this.index - column.index;
     }
 
-    public int getIndex() {
-        return index;
-    }
-
     public int compare(Column column) {
         return Integer.compare(column.index, index);
+    }
+
+    public int getIndex() {
+        return index;
     }
 }

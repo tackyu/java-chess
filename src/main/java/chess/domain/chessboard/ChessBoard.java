@@ -69,4 +69,12 @@ public class ChessBoard {
     public Map<Position, Piece> getChessBoard() {
         return Collections.unmodifiableMap(chessBoard);
     }
+
+    public List<Piece> getPiecesByColumn(Position startPosition) {
+        List<Piece> pieces = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            pieces.add(findChessPiece(startPosition.move(0, i)));
+        }
+        return Collections.unmodifiableList(pieces);
+    }
 }
