@@ -8,6 +8,7 @@ public class Rook extends Piece {
 
     public Rook(Team team) {
         super(team);
+        score=5;
     }
 
     @Override

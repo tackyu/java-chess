@@ -9,6 +9,7 @@ public class Bishop extends Piece {
 
     public Bishop(Team team) {
         super(team);
+        score = 3;
     }
 
     @Override

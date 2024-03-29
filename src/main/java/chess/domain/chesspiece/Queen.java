@@ -8,6 +8,7 @@ public class Queen extends Piece {
 
     public Queen(Team team) {
         super(team);
+        score=9;
     }
 
     @Override

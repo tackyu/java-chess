@@ -12,6 +12,7 @@ public class Knight extends Piece {
 
     public Knight(Team team) {
         super(team);
+        score = 2.5;
     }
 
     @Override
