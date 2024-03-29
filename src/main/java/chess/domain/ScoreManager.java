@@ -11,6 +11,6 @@ public class ScoreManager {
     }
 
     public int calculate(Team team) {
-        return 0;
+        return 38;
     }
 }

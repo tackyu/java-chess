@@ -1,5 +1,6 @@
 package chess.controller;
 
+import chess.domain.chessboard.BoardInitializer;
 import chess.domain.chessboard.ChessBoard;
 import chess.view.Command;
 import chess.domain.position.Position;
@@ -14,7 +15,8 @@ public class Controller {
     public void run() {
         OutputView.printStartMessage();
         Command command = Command.getStartCommand(InputView.readCommand());
-        ChessBoard chessBoard = ChessBoard.initializeChessBoard();
+        BoardInitializer boardInitializer = new BoardInitializer();
+        ChessBoard chessBoard = boardInitializer.initializeChessBoard();
         while (isGameOnGoing(chessBoard, command)) {
             OutputView.printChessBoard(chessBoard.getChessBoard());
             command = Command.getProcessCommand(InputView.readCommand());
