@@ -1,25 +1,22 @@
 package chess.view;
 
-import chess.domain.chessboard.Line;
-import chess.domain.position.Column;
 import chess.domain.chesspiece.Role;
 import chess.domain.chesspiece.Piece;
+import chess.domain.position.Position;
 
 import java.util.EnumMap;
-import java.util.List;
 import java.util.Map;
 
 public class OutputView {
     private static final EnumMap<Role, String> pieceBoard = initializePiece();
 
-    public static void printChessBoard(Map<Column, Line> chessBoard) {
-        chessBoard.values()
-                .forEach(line -> printOneLine(line.getLine()));
-    }
-
-    private static void printOneLine(List<Piece> line) {
-        line.forEach(chessPiece -> System.out.print(pieceBoard.get(chessPiece.getRole())));
-        System.out.println();
+    public static void printChessBoard(Map<Position, Piece> chessBoard) {
+        chessBoard.forEach((position, piece) -> {
+            System.out.print(pieceBoard.get(piece.getRole()));
+            if (position.getRow().getIndex() == 7) {
+                System.out.println();
+            }
+        });
     }
 
     public static void printStartMessage() {
