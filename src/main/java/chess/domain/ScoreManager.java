@@ -8,6 +8,7 @@ import chess.domain.position.Position;
 import java.util.List;
 
 import static chess.domain.chesspiece.Role.*;
+import static chess.domain.chesspiece.Team.*;
 
 public class ScoreManager {
     private final ChessBoard chessBoard;
@@ -51,5 +52,17 @@ public class ScoreManager {
         return (int) piecesByTeam.stream()
                 .filter(piece -> piece.getRole() == BLACK_PAWN || piece.getRole() == WHITE_PAWN)
                 .count();
+    }
+
+    public Team findWinner() {
+        double black = calculate(BLACK);
+        double white = calculate(WHITE);
+        if (black > white) {
+            return BLACK;
+        }
+        if (white > black) {
+            return WHITE;
+        }
+        return NOTHING;
     }
 }

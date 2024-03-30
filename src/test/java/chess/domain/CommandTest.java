@@ -25,10 +25,11 @@ class CommandTest {
                 .hasMessage("첫 명령어는 start만 입력할 수 있습니다.");
     }
 
-    @Test
+    @ParameterizedTest
+    @CsvSource(value = {"end", "status"})
     @DisplayName("게임을 진행하는 명령어인지 검증한다.")
-    void Command_Validate_command_while_playing() {
-        assertThatCode(() -> Command.getProcessCommand("end"))
+    void Command_Validate_command_while_playing(String command) {
+        assertThatCode(() -> Command.getProcessCommand(command))
                 .doesNotThrowAnyException();
     }
 

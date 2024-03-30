@@ -39,4 +39,8 @@ public enum Command {
     public boolean isEnd() {
         return this == END;
     }
+
+    public boolean isStatus() {
+        return this == STATUS;
+    }
 }

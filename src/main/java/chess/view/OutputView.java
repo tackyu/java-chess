@@ -2,10 +2,13 @@ package chess.view;
 
 import chess.domain.chesspiece.Role;
 import chess.domain.chesspiece.Piece;
+import chess.domain.chesspiece.Team;
 import chess.domain.position.Position;
 
 import java.util.EnumMap;
 import java.util.Map;
+
+import static chess.domain.chesspiece.Team.*;
 
 public class OutputView {
     private static final EnumMap<Role, String> pieceBoard = initializePiece();
@@ -17,6 +20,7 @@ public class OutputView {
                 System.out.println();
             }
         });
+        System.out.println();
     }
 
     public static void printStartMessage() {
@@ -40,5 +44,17 @@ public class OutputView {
         pieceBoard.put(Role.WHITE_PAWN, "p");
         pieceBoard.put(Role.EMPTY, ".");
         return pieceBoard;
+    }
+
+    public static void printScore(Team team, double score) {
+        System.out.println(team + " 점수: " + score);
+    }
+
+    public static void printWinner(Team winner) {
+        if (winner == NOTHING) {
+            System.out.println("무승부\n");
+            return;
+        }
+        System.out.println(winner + " 우세\n");
     }
 }
