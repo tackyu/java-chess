@@ -58,7 +58,7 @@ public class ChessBoard {
         }
     }
 
-    private Piece findChessPiece(Position source) {
+    public Piece findChessPiece(Position source) {
         return chessBoard.get(source);
     }
 

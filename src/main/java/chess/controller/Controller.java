@@ -3,6 +3,8 @@ package chess.controller;
 import chess.domain.ScoreManager;
 import chess.domain.chessboard.BoardInitializer;
 import chess.domain.chessboard.ChessBoard;
+import chess.domain.chesspiece.Empty;
+import chess.domain.chesspiece.Piece;
 import chess.domain.dao.ChessBoardDao;
 import chess.domain.dao.ChessGameDao;
 import chess.view.Command;
@@ -16,6 +18,9 @@ import static chess.domain.chessboard.State.*;
 import static chess.domain.chesspiece.Team.*;
 
 public class Controller {
+    private ChessGameDao chessGameDao = new ChessGameDao();
+    private ChessBoardDao chessBoardDao = new ChessBoardDao();
+
     public void run() {
         OutputView.printStartMessage();
         Command command = Command.getStartCommand(InputView.readCommand());
@@ -29,8 +34,6 @@ public class Controller {
     }
 
     private ChessBoard loadChessBoard(BoardInitializer boardInitializer) {
-        ChessGameDao chessGameDao = new ChessGameDao();
-        ChessBoardDao chessBoardDao = new ChessBoardDao();
         int gameID = chessGameDao.findGameId();
         if (gameID == -1) {
             chessGameDao.addGame();
@@ -47,14 +50,24 @@ public class Controller {
 
     private void processGame(Command command, ChessBoard chessBoard, ScoreManager scoreManager) {
         if (command.isMove()) {
-            List<String> positions = InputView.readPositions();
-            chessBoard.move(Position.of(positions.get(0)), Position.of(positions.get(1)));
+            move(chessBoard);
         }
         if (command.isStatus()) {
-            OutputView.printScore(WHITE, scoreManager.calculate(WHITE));
-            OutputView.printScore(BLACK, scoreManager.calculate(BLACK));
-            OutputView.printWinner(scoreManager.findWinner());
+            printStatus(scoreManager);
         }
     }
 
+    private void move(ChessBoard chessBoard) {
+        List<String> positions = InputView.readPositions();
+        Piece sourcePiece = chessBoard.findChessPiece(Position.of(positions.get(0)));
+        chessBoard.move(Position.of(positions.get(0)), Position.of(positions.get(1)));
+        chessBoardDao.update(sourcePiece, Position.of(positions.get(1)));
+        chessBoardDao.update(new Empty(), Position.of(positions.get(0)));
+    }
+
+    private void printStatus(ScoreManager scoreManager) {
+        OutputView.printScore(WHITE, scoreManager.calculate(WHITE));
+        OutputView.printScore(BLACK, scoreManager.calculate(BLACK));
+        OutputView.printWinner(scoreManager.findWinner());
+    }
 }

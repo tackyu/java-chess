@@ -59,4 +59,16 @@ public class ChessBoardDao {
         }
         return board;
     }
+
+    public void update(Piece piece, Position position) {
+        final var query = "UPDATE chessboard SET piece=? where position=?";
+        try (final var connection = getConnection();
+             final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, piece.getRole().name());
+            preparedStatement.setString(2, position.getName());
+            preparedStatement.executeUpdate();
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
