@@ -23,6 +23,10 @@ public class BoardInitializer {
         return new ChessBoard(board);
     }
 
+    public ChessBoard initializeChessBoard(Map<Position, Piece> board) {
+        return new ChessBoard(board);
+    }
+
     private void initializeRow(Map<Position, Piece> board, List<Piece> pieces, Position startPosition) {
         for (int i = 0; i <= 7; i++) {
             board.put(startPosition.move(i, 0), pieces.get(i));
