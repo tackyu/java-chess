@@ -71,4 +71,17 @@ public class ChessBoardDao {
             throw new RuntimeException(e);
         }
     }
+
+    public void delete(int gameId) {
+        final var query = "DELETE from chessboard where chess_game_id=?";
+        try (final var connection = getConnection();
+             final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, gameId);
+            preparedStatement.executeUpdate();
+
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 }

@@ -18,8 +18,8 @@ import static chess.domain.chessboard.State.*;
 import static chess.domain.chesspiece.Team.*;
 
 public class Controller {
-    private ChessGameDao chessGameDao = new ChessGameDao();
-    private ChessBoardDao chessBoardDao = new ChessBoardDao();
+    private final ChessGameDao chessGameDao = new ChessGameDao();
+    private final ChessBoardDao chessBoardDao = new ChessBoardDao();
 
     public void run() {
         OutputView.printStartMessage();
@@ -31,6 +31,7 @@ public class Controller {
             command = Command.getProcessCommand(InputView.readCommand());
             processGame(command, chessBoard, scoreManager);
         }
+        cleanData(command);
     }
 
     private ChessBoard loadChessBoard(BoardInitializer boardInitializer) {
@@ -69,5 +70,14 @@ public class Controller {
         OutputView.printScore(WHITE, scoreManager.calculate(WHITE));
         OutputView.printScore(BLACK, scoreManager.calculate(BLACK));
         OutputView.printWinner(scoreManager.findWinner());
+    }
+
+    private void cleanData(Command command) {
+        if (command.isEnd()) {
+            return;
+        }
+        int gameId = chessGameDao.findGameId();
+        chessGameDao.delete();
+        chessBoardDao.delete(gameId);
     }
 }

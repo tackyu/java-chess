@@ -50,4 +50,16 @@ public class ChessGameDao {
         return -1;
     }
 
+    public void delete() {
+        final var query = "DELETE from chess_game where state=?";
+        try (final var connection = getConnection();
+             final var preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, State.GAME_ONGOING.name());
+            preparedStatement.executeUpdate();
+
+        } catch (final SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 }
