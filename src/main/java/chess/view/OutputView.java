@@ -13,14 +13,18 @@ import static chess.domain.chesspiece.Team.*;
 public class OutputView {
     private static final EnumMap<Role, String> pieceBoard = initializePiece();
 
-    public static void printChessBoard(Map<Position, Piece> chessBoard) {
-        chessBoard.forEach((position, piece) -> {
+    public static void printChessBoard(Map<Position, Piece> chessBoard, Position position) {
+        for (int i = 0; i < 8; i++) {
+            printLine(chessBoard, position.move(0, -i));
+            System.out.println();
+        }
+    }
+
+    private static void printLine(Map<Position, Piece> chessBoard, Position position) {
+        for (int i = 0; i < 7; i++) {
+            Piece piece = chessBoard.get(position.move(i, 0));
             System.out.print(pieceBoard.get(piece.getRole()));
-            if (position.getRow().getIndex() == 7) {
-                System.out.println();
-            }
-        });
-        System.out.println();
+        }
     }
 
     public static void printStartMessage() {
