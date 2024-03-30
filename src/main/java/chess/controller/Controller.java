@@ -3,6 +3,8 @@ package chess.controller;
 import chess.domain.ScoreManager;
 import chess.domain.chessboard.BoardInitializer;
 import chess.domain.chessboard.ChessBoard;
+import chess.domain.dao.ChessBoardDao;
+import chess.domain.dao.ChessGameDao;
 import chess.view.Command;
 import chess.domain.position.Position;
 import chess.view.InputView;
@@ -17,13 +19,26 @@ public class Controller {
     public void run() {
         OutputView.printStartMessage();
         Command command = Command.getStartCommand(InputView.readCommand());
-        ChessBoard chessBoard = new BoardInitializer().initializeChessBoard();
+        ChessBoard chessBoard = loadChessBoard(new BoardInitializer());
         ScoreManager scoreManager = new ScoreManager(chessBoard);
         while (isGameOnGoing(chessBoard, command)) {
-            OutputView.printChessBoard(chessBoard.getChessBoard());
+            OutputView.printChessBoard(chessBoard.getChessBoard(), Position.of("a8"));
             command = Command.getProcessCommand(InputView.readCommand());
             processGame(command, chessBoard, scoreManager);
         }
+    }
+
+    private ChessBoard loadChessBoard(BoardInitializer boardInitializer) {
+        ChessGameDao chessGameDao = new ChessGameDao();
+        ChessBoardDao chessBoardDao = new ChessBoardDao();
+        int gameID = chessGameDao.findGameId();
+        if (gameID == -1) {
+            chessGameDao.addGame();
+            ChessBoard board = boardInitializer.initializeChessBoard();
+            chessBoardDao.save(chessGameDao.findGameId(), board.getChessBoard());
+            return board;
+        }
+        return boardInitializer.initializeChessBoard(chessBoardDao.load(gameID));
     }
 
     private boolean isGameOnGoing(ChessBoard chessBoard, Command command) {
