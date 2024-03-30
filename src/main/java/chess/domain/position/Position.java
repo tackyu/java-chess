@@ -78,4 +78,8 @@ public class Position {
     public int hashCode() {
         return Objects.hash(row, column);
     }
+
+    public String getName() {
+        return row.name().toLowerCase() + (column.getIndex() + 1);
+    }
 }
