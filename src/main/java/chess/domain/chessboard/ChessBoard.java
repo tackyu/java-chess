@@ -33,8 +33,11 @@ public class ChessBoard {
 
     private void attack(Position source, Position target, Piece piece) {
         Piece enemy = findChessPiece(target);
-        if (enemy.getRole() == BLACK_KING || enemy.getRole() == WHITE_KING) {
-            state = GAME_END;
+        if (enemy.getRole() == BLACK_KING) {
+            state = WHITE_WIN;
+        }
+        if (enemy.getRole() == WHITE_KING) {
+            state = BLACK_WIN;
         }
         updateChessBoard(source, target, piece);
     }

@@ -75,8 +75,8 @@ class ChessBoardTest {
     }
 
     @Test
-    @DisplayName("킹이 잡히면 게임 상태는 GAME_END이다.")
-    void ChessBoard_check_game_state_when_the_whiteKing_is_gone() {
+    @DisplayName("흑팀 킹이 잡히면 게임 상태는 WHITE_WIN이다.")
+    void ChessBoard_check_game_state_when_the_blackKing_is_gone() {
         ChessBoard chessBoard = boardInitializer.initializeChessBoard();
         chessBoard.move(Position.of("e7"), Position.of("e5"));
         chessBoard.move(Position.of("e8"), Position.of("e7"));
@@ -85,12 +85,12 @@ class ChessBoardTest {
         chessBoard.move(Position.of("c2"), Position.of("c4"));
         chessBoard.move(Position.of("c4"), Position.of("d5"));
 
-        assertThat(chessBoard.getState()).isEqualTo(GAME_END);
+        assertThat(chessBoard.getState()).isEqualTo(WHITE_WIN);
     }
 
     @Test
-    @DisplayName("킹이 잡히면 게임 상태는 GAME_END이다.")
-    void ChessBoard_check_game_state_when_the_blackKing_is_g() {
+    @DisplayName("백팀 킹이 잡히면 게임 상태는 BLACK_WIN이다.")
+    void ChessBoard_check_game_state_when_the_whiteKing_is_gone() {
         ChessBoard chessBoard = boardInitializer.initializeChessBoard();
         chessBoard.move(Position.of("e2"), Position.of("e4"));
         chessBoard.move(Position.of("e1"), Position.of("e2"));
@@ -99,6 +99,6 @@ class ChessBoardTest {
         chessBoard.move(Position.of("c7"), Position.of("c5"));
         chessBoard.move(Position.of("c5"), Position.of("d4"));
 
-        assertThat(chessBoard.getState()).isEqualTo(GAME_END);
+        assertThat(chessBoard.getState()).isEqualTo(BLACK_WIN);
     }
 }

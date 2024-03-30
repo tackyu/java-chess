@@ -2,6 +2,7 @@ package chess.domain.chessboard;
 
 public enum State {
     GAME_ONGOING,
-    GAME_END
-
+    BLACK_WIN,
+    WHITE_WIN,
+    ;
 }

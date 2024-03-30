@@ -1,5 +1,6 @@
 package chess.view;
 
+import chess.domain.chessboard.State;
 import chess.domain.chesspiece.Role;
 import chess.domain.chesspiece.Piece;
 import chess.domain.chesspiece.Team;
@@ -8,6 +9,7 @@ import chess.domain.position.Position;
 import java.util.EnumMap;
 import java.util.Map;
 
+import static chess.domain.chessboard.State.*;
 import static chess.domain.chesspiece.Team.*;
 
 public class OutputView {
@@ -54,11 +56,19 @@ public class OutputView {
         System.out.println(team + " 점수: " + score);
     }
 
-    public static void printWinner(Team winner) {
-        if (winner == NOTHING) {
-            System.out.println("무승부\n");
+    public static void printSuperiority(Team team) {
+        if (team == NOTHING) {
+            System.out.println("동점\n");
             return;
         }
-        System.out.println(winner + " 우세\n");
+        System.out.println(team + " 우세\n");
+    }
+
+    public static void printWinner(State state) {
+        if (state == BLACK_WIN) {
+            System.out.println("BLACK 승리");
+            return;
+        }
+        System.out.println("WHITE 승리");
     }
 }

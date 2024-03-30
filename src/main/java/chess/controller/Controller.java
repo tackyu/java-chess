@@ -3,6 +3,7 @@ package chess.controller;
 import chess.domain.ScoreManager;
 import chess.domain.chessboard.BoardInitializer;
 import chess.domain.chessboard.ChessBoard;
+import chess.domain.chessboard.State;
 import chess.domain.chesspiece.Empty;
 import chess.domain.chesspiece.Piece;
 import chess.domain.dao.ChessBoardDao;
@@ -31,7 +32,7 @@ public class Controller {
             command = Command.getProcessCommand(InputView.readCommand());
             processGame(command, chessBoard, scoreManager);
         }
-        cleanData(command);
+        quitTheGame(command, chessBoard.getState());
     }
 
     private ChessBoard loadChessBoard(BoardInitializer boardInitializer) {
@@ -69,7 +70,14 @@ public class Controller {
     private void printStatus(ScoreManager scoreManager) {
         OutputView.printScore(WHITE, scoreManager.calculate(WHITE));
         OutputView.printScore(BLACK, scoreManager.calculate(BLACK));
-        OutputView.printWinner(scoreManager.findWinner());
+        OutputView.printSuperiority(scoreManager.findWinner());
+    }
+
+    private void quitTheGame(Command command, State state) {
+        cleanData(command);
+        if (!command.isEnd()) {
+            OutputView.printWinner(state);
+        }
     }
 
     private void cleanData(Command command) {
