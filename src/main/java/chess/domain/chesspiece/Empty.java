@@ -8,9 +8,11 @@ import static chess.domain.chesspiece.Team.NOTHING;
 import static chess.domain.chesspiece.Role.EMPTY;
 
 public class Empty extends Piece {
+    private static final double SCORE = 0;
 
     public Empty() {
         super(NOTHING);
+        score = SCORE;
     }
 
     @Override

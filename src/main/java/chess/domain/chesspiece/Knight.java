@@ -9,10 +9,11 @@ import java.util.List;
 import static chess.domain.chesspiece.Role.*;
 
 public class Knight extends Piece {
+    private static final double SCORE = 2.5;
 
     public Knight(Team team) {
         super(team);
-        score = 2.5;
+        score = SCORE;
     }
 
     @Override

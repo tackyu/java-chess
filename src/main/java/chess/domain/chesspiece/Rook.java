@@ -5,10 +5,11 @@ import chess.domain.position.Position;
 import static chess.domain.chesspiece.Role.*;
 
 public class Rook extends Piece {
+    private static final double SCORE = 5;
 
     public Rook(Team team) {
         super(team);
-        score=5;
+        score = SCORE;
     }
 
     @Override

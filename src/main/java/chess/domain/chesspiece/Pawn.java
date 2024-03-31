@@ -11,10 +11,11 @@ import static chess.domain.chesspiece.Role.*;
 import static chess.domain.chesspiece.Team.*;
 
 public class Pawn extends Piece {
+    private static final double SCORE = 1;
 
     public Pawn(Team team) {
         super(team);
-        score = 1;
+        score = SCORE;
     }
 
     @Override
