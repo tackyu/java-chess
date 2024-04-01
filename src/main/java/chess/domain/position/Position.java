@@ -18,6 +18,13 @@ public class Position {
         return new Position(row, column);
     }
 
+    public static Position of(int rowIndex, int columnIndex) {
+        Row row = Row.from(rowIndex);
+        Column column = Column.from(columnIndex);
+
+        return new Position(row, column);
+    }
+
     public Row getRow() {
         return row;
     }

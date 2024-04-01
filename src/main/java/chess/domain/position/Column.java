@@ -23,6 +23,10 @@ public enum Column {
         return find(Integer.parseInt(value) - 1);
     }
 
+    public static Column from(int index) {
+        return find(index);
+    }
+
     private static void validate(String value) {
         try {
             int number = Integer.parseInt(value);

@@ -24,6 +24,10 @@ public enum Row {
         return find(value.charAt(0) - 'a');
     }
 
+    public static Row from(int index) {
+        return find(index);
+    }
+
     private static void validate(String value) {
         validateAlphabet(value);
         validateSize(value);
