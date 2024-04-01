@@ -52,15 +52,14 @@ public class Controller {
 
     private void processGame(Command command, ChessBoard chessBoard, ScoreManager scoreManager) {
         if (command.isMove()) {
-            move(chessBoard);
+            move(chessBoard, InputView.readPositions());
         }
         if (command.isStatus()) {
             printStatus(scoreManager);
         }
     }
 
-    private void move(ChessBoard chessBoard) {
-        List<String> positions = InputView.readPositions();
+    void move(ChessBoard chessBoard, List<String> positions) {
         Piece sourcePiece = chessBoard.findChessPiece(Position.of(positions.get(0)));
         chessBoard.move(Position.of(positions.get(0)), Position.of(positions.get(1)));
         chessBoardDao.update(sourcePiece, Position.of(positions.get(1)));
