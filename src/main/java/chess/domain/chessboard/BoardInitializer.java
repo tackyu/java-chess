@@ -13,13 +13,13 @@ import static chess.domain.chesspiece.Team.WHITE;
 public class BoardInitializer {
     public ChessBoard initializeChessBoard() {
         Map<Position, Piece> board = new LinkedHashMap<>();
-        initializeRow(board, makeChessPiece(BLACK), Position.of("a8"));
-        initializeRow(board, makePawn(BLACK), Position.of("a7"));
+        initializeRow(board, makeChessPiece(BLACK), Position.of(0, 7));
+        initializeRow(board, makePawn(BLACK), Position.of(0, 6));
         for (int i = 0; i < 4; i++) {
-            initializeRow(board, makeEmpty(), Position.of("a6").move(0, -i));
+            initializeRow(board, makeEmpty(), Position.of(0, 5).move(0, -i));
         }
-        initializeRow(board, makePawn(WHITE), Position.of("a2"));
-        initializeRow(board, makeChessPiece(WHITE), Position.of("a1"));
+        initializeRow(board, makePawn(WHITE), Position.of(0, 1));
+        initializeRow(board, makeChessPiece(WHITE), Position.of(0, 0));
         return new ChessBoard(board);
     }
 
