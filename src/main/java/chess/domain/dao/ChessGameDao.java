@@ -4,6 +4,7 @@ import chess.domain.chessboard.State;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class ChessGameDao {
@@ -23,10 +24,13 @@ public class ChessGameDao {
         }
     }
 
+    private PreparedStatement setPreparedStatement(String query) throws SQLException {
+        return getConnection().prepareStatement(query);
+    }
+
     public void addGame() {
         final var query = "INSERT INTO chess_game(state) VALUES (?)";
-        try (final var connection = getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
+        try (final var preparedStatement = setPreparedStatement(query)) {
             preparedStatement.setString(1, State.GAME_ONGOING.name());
             preparedStatement.executeUpdate();
         } catch (final SQLException e) {
@@ -36,10 +40,8 @@ public class ChessGameDao {
 
     public int findGameId() {
         final var query = "SELECT id FROM chess_game WHERE state = ?";
-        try (final var connection = getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
+        try (final var preparedStatement = setPreparedStatement(query)) {
             preparedStatement.setString(1, State.GAME_ONGOING.name());
-
             final var resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getInt("id");
@@ -52,11 +54,9 @@ public class ChessGameDao {
 
     public void delete() {
         final var query = "DELETE from chess_game where state=?";
-        try (final var connection = getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
+        try (final var preparedStatement = setPreparedStatement(query)) {
             preparedStatement.setString(1, State.GAME_ONGOING.name());
             preparedStatement.executeUpdate();
-
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }

@@ -6,6 +6,7 @@ import chess.domain.position.Position;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -27,10 +28,13 @@ public class ChessBoardDao {
         }
     }
 
+    private PreparedStatement setPreparedStatement(String query) throws SQLException {
+        return getConnection().prepareStatement(query);
+    }
+
     public void save(int gameId, Map<Position, Piece> board) {
         final var query = "INSERT INTO chessboard VALUES(?, ?, ?)";
-        try (final var connection = getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
+        try (final var preparedStatement = setPreparedStatement(query)) {
             for (Position position : board.keySet()) {
                 preparedStatement.setInt(1, gameId);
                 preparedStatement.setString(2, position.getName());
@@ -45,8 +49,7 @@ public class ChessBoardDao {
     public Map<Position, Piece> load(int gameId) {
         Map<Position, Piece> board = new LinkedHashMap<>();
         final var query = "SELECT position,piece  FROM chessboard WHERE chess_game_id = ?";
-        try (final var connection = getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
+        try (final var preparedStatement = setPreparedStatement(query)) {
             preparedStatement.setInt(1, gameId);
             final var resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -62,8 +65,7 @@ public class ChessBoardDao {
 
     public void update(Piece piece, Position position) {
         final var query = "UPDATE chessboard SET piece=? where position=?";
-        try (final var connection = getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
+        try (final var preparedStatement = setPreparedStatement(query)) {
             preparedStatement.setString(1, piece.getRole().name());
             preparedStatement.setString(2, position.getName());
             preparedStatement.executeUpdate();
@@ -74,14 +76,12 @@ public class ChessBoardDao {
 
     public void delete(int gameId) {
         final var query = "DELETE from chessboard where chess_game_id=?";
-        try (final var connection = getConnection();
-             final var preparedStatement = connection.prepareStatement(query)) {
+        try (final var preparedStatement = setPreparedStatement(query)) {
             preparedStatement.setInt(1, gameId);
             preparedStatement.executeUpdate();
 
         } catch (final SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 }
