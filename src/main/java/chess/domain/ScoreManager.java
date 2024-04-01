@@ -12,6 +12,8 @@ import static chess.domain.chesspiece.Team.*;
 
 public class ScoreManager {
     private final ChessBoard chessBoard;
+    private static final double SCORE_OF_PAWN = 1;
+    private static final double SCORE_OF_PAWN_STAND_IN_LINE = 0.5;
 
     public ScoreManager(ChessBoard chessBoard) {
         this.chessBoard = chessBoard;
@@ -43,9 +45,9 @@ public class ScoreManager {
     private double calculatePawn(List<Piece> piecesByTeam) {
         int count = countPawn(piecesByTeam);
         if (count == 1) {
-            return 1;
+            return SCORE_OF_PAWN;
         }
-        return 0.5 * count;
+        return SCORE_OF_PAWN_STAND_IN_LINE * count;
     }
 
     private int countPawn(List<Piece> piecesByTeam) {
