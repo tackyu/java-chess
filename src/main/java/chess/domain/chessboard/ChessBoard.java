@@ -21,13 +21,13 @@ public class ChessBoard {
     public void move(Position source, Position target) {
         Piece piece = findChessPiece(source);
         piece.getRoute(source, target)
-                .forEach(this::checkObstacle); //공통~ 경로에 장애물 확인
+                .forEach(this::validateObstacle);
 
-        if (piece.willAttack(Direction.findDirection(source, target), findChessPiece(target))) {//공격
+        if (piece.willAttack(Direction.findDirection(source, target), findChessPiece(target))) {
             attack(source, target, piece);
             return;
         }
-        checkTeam(target, piece);//이동~ 같은 팀이면 예외
+        validateSameTeam(target, piece);//이동~ 같은 팀이면 예외
         updateChessBoard(source, target, piece);
     }
 
@@ -47,14 +47,14 @@ public class ChessBoard {
         chessBoard.put(target, piece);
     }
 
-    private void checkObstacle(Position position) {
+    private void validateObstacle(Position position) {
         Piece obstacle = findChessPiece(position);
         if (obstacle.getRole() != EMPTY) {
             throw new IllegalArgumentException("이동할 수 없습니다.");
         }
     }
 
-    private void checkTeam(Position target, Piece piece) {
+    private void validateSameTeam(Position target, Piece piece) {
         Piece targetPiece = findChessPiece(target);
         if (piece.isTeam(targetPiece)) {
             throw new IllegalArgumentException("이동할 수 없습니다.");
