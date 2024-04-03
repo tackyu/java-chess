@@ -15,7 +15,6 @@ public class Pawn extends Piece {
 
     public Pawn(Team team) {
         super(team);
-        score = SCORE;
     }
 
     @Override
@@ -86,5 +85,10 @@ public class Pawn extends Piece {
             return WHITE_PAWN;
         }
         return BLACK_PAWN;
+    }
+
+    @Override
+    public double getScore() {
+        return SCORE;
     }
 }

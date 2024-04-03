@@ -10,7 +10,6 @@ public class Bishop extends Piece {
 
     public Bishop(Team team) {
         super(team);
-        score = SCORE;
     }
 
     @Override
@@ -28,5 +27,10 @@ public class Bishop extends Piece {
             return WHITE_BISHOP;
         }
         return BLACK_BISHOP;
+    }
+
+    @Override
+    public double getScore() {
+        return SCORE;
     }
 }

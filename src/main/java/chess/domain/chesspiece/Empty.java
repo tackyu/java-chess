@@ -12,7 +12,6 @@ public class Empty extends Piece {
 
     public Empty() {
         super(NOTHING);
-        score = SCORE;
     }
 
     @Override
@@ -27,5 +26,10 @@ public class Empty extends Piece {
     @Override
     public Role getRole() {
         return EMPTY;
+    }
+
+    @Override
+    public double getScore() {
+        return SCORE;
     }
 }

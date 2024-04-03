@@ -9,7 +9,6 @@ public class King extends Piece {
 
     public King(Team team) {
         super(team);
-        score = SCORE;
     }
 
     @Override
@@ -28,4 +27,10 @@ public class King extends Piece {
         }
         return BLACK_KING;
     }
+
+    @Override
+    public double getScore() {
+        return SCORE;
+    }
+
 }

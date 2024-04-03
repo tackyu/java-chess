@@ -13,7 +13,6 @@ public class Knight extends Piece {
 
     public Knight(Team team) {
         super(team);
-        score = SCORE;
     }
 
     @Override
@@ -38,5 +37,10 @@ public class Knight extends Piece {
             return WHITE_KNIGHT;
         }
         return BLACK_KNIGHT;
+    }
+
+    @Override
+    public double getScore() {
+        return SCORE;
     }
 }

@@ -9,7 +9,6 @@ import java.util.List;
 
 public abstract class Piece {
     protected final Team team;
-    protected double score;
 
     public Piece(Team team) {
         this.team = team;
@@ -44,7 +43,5 @@ public abstract class Piece {
 
     public abstract Role getRole();
 
-    public double getScore(){
-        return score;
-    }
+    public abstract double getScore();
 }

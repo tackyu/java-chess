@@ -9,7 +9,6 @@ public class Rook extends Piece {
 
     public Rook(Team team) {
         super(team);
-        score = SCORE;
     }
 
     @Override
@@ -25,5 +24,10 @@ public class Rook extends Piece {
             return WHITE_ROOK;
         }
         return BLACK_ROOK;
+    }
+
+    @Override
+    public double getScore() {
+        return SCORE;
     }
 }
