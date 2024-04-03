@@ -25,10 +25,6 @@ public class Position {
         return new Position(row, column);
     }
 
-    public Row getRow() {
-        return row;
-    }
-
     public Column getColumn() {
         return column;
     }

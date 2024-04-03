@@ -49,6 +49,10 @@ public enum Column {
                 .orElseThrow(() -> new IllegalArgumentException("1~8까지 가능합니다."));
     }
 
+    public static int getMaxSize() {
+        return values().length;
+    }
+
     public Column update(int direction) {
         return Arrays.stream(values())
                 .filter(column -> column.index == this.index + direction)

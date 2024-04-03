@@ -3,6 +3,7 @@ package chess.domain;
 import chess.domain.chessboard.ChessBoard;
 import chess.domain.chesspiece.Piece;
 import chess.domain.chesspiece.Team;
+import chess.domain.position.Column;
 import chess.domain.position.Position;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class ScoreManager {
     public double calculate(Team team) {
         double score = 0;
         Position startPosition = Position.of(0, 0);
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < Column.getMaxSize(); i++) {
             List<Piece> piecesByColumn = chessBoard.getPiecesByColumn(startPosition.move(i, 0));
             List<Piece> piecesByTeam = piecesByColumn.stream()
                     .filter(piece -> piece.isTeam(team))
