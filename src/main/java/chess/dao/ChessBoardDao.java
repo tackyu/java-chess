@@ -1,4 +1,4 @@
-package chess.domain.dao;
+package chess.dao;
 
 import chess.domain.chesspiece.Piece;
 import chess.domain.chesspiece.Role;
@@ -50,8 +50,7 @@ public class ChessBoardDao {
 
     public void delete(int gameId) {
         final var query = "DELETE from chessboard where chess_game_id=?";
-        executor.changeDB(query, preparedStatement -> {
-            preparedStatement.setInt(1, gameId);
-        });
+        executor.changeDB(query, preparedStatement
+                -> preparedStatement.setInt(1, gameId));
     }
 }

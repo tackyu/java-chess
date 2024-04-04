@@ -1,4 +1,4 @@
-package chess.domain.dao;
+package chess.dao;
 
 import chess.domain.chessboard.State;
 
@@ -11,9 +11,8 @@ public class ChessGameDao {
 
     public void addGame() {
         final var query = "INSERT INTO chess_game(state) VALUES (?)";
-        executor.changeDB(query, preparedStatement -> {
-            preparedStatement.setString(1, State.GAME_ONGOING.name());
-        });
+        executor.changeDB(query, preparedStatement
+                -> preparedStatement.setString(1, State.GAME_ONGOING.name()));
     }
 
     public int findGameId() {

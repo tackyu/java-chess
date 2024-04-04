@@ -1,13 +1,11 @@
 package chess.controller;
 
+import chess.DBManager;
 import chess.domain.ScoreManager;
 import chess.domain.chessboard.BoardInitializer;
 import chess.domain.chessboard.ChessBoard;
 import chess.domain.chessboard.State;
-import chess.domain.chesspiece.Empty;
 import chess.domain.chesspiece.Piece;
-import chess.domain.dao.ChessBoardDao;
-import chess.domain.dao.ChessGameDao;
 import chess.view.Command;
 import chess.domain.position.Position;
 import chess.view.InputView;
@@ -19,8 +17,7 @@ import static chess.domain.chessboard.State.*;
 import static chess.domain.chesspiece.Team.*;
 
 public class Controller {
-    private final ChessGameDao chessGameDao = new ChessGameDao();
-    private final ChessBoardDao chessBoardDao = new ChessBoardDao();
+    private final DBManager dbManager = new DBManager();
 
     public void run() {
         OutputView.printStartMessage();
@@ -36,14 +33,13 @@ public class Controller {
     }
 
     private ChessBoard loadChessBoard(BoardInitializer boardInitializer) {
-        int gameID = chessGameDao.findGameId();
+        int gameID = dbManager.findGameId();
         if (gameID == -1) {
-            chessGameDao.addGame();
             ChessBoard board = boardInitializer.initializeChessBoard();
-            chessBoardDao.save(chessGameDao.findGameId(), board.getChessBoard());
+            dbManager.initialize(board);
             return board;
         }
-        return boardInitializer.initializeChessBoard(chessBoardDao.load(gameID));
+        return boardInitializer.initializeChessBoard(dbManager.loadChessBoard());
     }
 
     private boolean isGameOnGoing(ChessBoard chessBoard, Command command) {
@@ -59,11 +55,10 @@ public class Controller {
         }
     }
 
-    void move(ChessBoard chessBoard, List<String> positions) {
+    private void move(ChessBoard chessBoard, List<String> positions) {
         Piece sourcePiece = chessBoard.findChessPiece(Position.of(positions.get(0)));
         chessBoard.move(Position.of(positions.get(0)), Position.of(positions.get(1)));
-        chessBoardDao.update(sourcePiece, Position.of(positions.get(1)));
-        chessBoardDao.update(new Empty(), Position.of(positions.get(0)));
+        dbManager.updateBoard(sourcePiece, positions);
     }
 
     private void printStatus(ScoreManager scoreManager) {
@@ -83,8 +78,6 @@ public class Controller {
         if (command.isEnd()) {
             return;
         }
-        int gameId = chessGameDao.findGameId();
-        chessGameDao.delete();
-        chessBoardDao.delete(gameId);
+        dbManager.clean();
     }
 }
